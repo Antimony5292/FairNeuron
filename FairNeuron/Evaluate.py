@@ -1,3 +1,14 @@
+import numpy as np
+import pandas as pd
+import torch
+import torch.nn as nn
+import torch.optim as optim
+from torch.utils.data import DataLoader
+from pycm import ConfusionMatrix
+from tqdm import trange
+
+from models import Net, Net_CENSUS, Net_nodrop
+from utils.attack import attack_keras_model
 
 
 
@@ -395,3 +406,46 @@ def train_and_evaluate_drop(adv_loader: DataLoader,
         df['race_hat'] = protected.cpu().numpy()[:, 0]
 
     return model, df
+
+
+
+# def EA(net, attack_size, iter_num, dataset='compas'):
+#     model=net
+#     EA_start=time.time()
+#     t_main=trange(10,desc="Attack", leave=False, position=0)
+#     global train_loader, x_train_tensor, y_train_tensor, l_train_tensor, s_train_tensor
+#     for i in range(iter_num):
+
+#         model, results = train_and_evaluate(train_loader, val_loader, test_loader, device,
+#                                             input_shape=x_tensor.shape[1], model=model)
+#         print(i)
+#         result = get_metrics(results, threshold, fraction=(attack_size)/(base_size * 7), dataset=dataset)
+#         t_main.set_postfix(result)
+#         global_results.append(result)    
+#         result_pts, result_class, labels = attack_keras_model(
+#                 CArray(x_train_tensor),
+#                 Y=CArray((y_train_tensor[:, 0] > threshold).int()),
+#                 S=s_train_tensor,
+#                 nb_attack=10)
+#         print('attack_done!')
+#         result_pts = torch.tensor(np.around(result_pts.astype(np.float32), decimals=3)).clamp(0.0, 1.0)
+#         result_pts[result_pts != result_pts] = 0.0
+#         result_class[result_class != result_class] = 0.0
+
+#         x_train_tensor = torch.cat((x_train_tensor, result_pts))
+#         y_train_tensor = torch.cat(
+#             (y_train_tensor, torch.tensor(result_class.reshape(-1, 1).astype(np.float32)).clamp(0, 10)))
+#         l_train_tensor = torch.cat((l_train_tensor, torch.tensor(labels.tondarray().reshape(-1, 1).astype(np.float32))))
+#         s = np.random.randint(2, size=len(result_class))
+#         s_train_tensor = torch.cat((s_train_tensor, torch.tensor(np.array([s, 1 - s]).T.astype(np.float64))))
+
+#         train_dataset = TensorDataset(x_train_tensor, y_train_tensor, l_train_tensor, s_train_tensor)
+#         train_loader = DataLoader(dataset=train_dataset, batch_size=BATCH_SIZE, shuffle=True)
+#         logging.debug("New training dataset has size {} (original {}).".format(len(train_loader), base_size * 7))
+#         EA_mid=time.time()
+#         cost_time=EA_mid-EA_start
+#         print('time costs:{} s'.format(cost_time))
+
+#     EA_end=time.time()
+#     cost_time=EA_end-EA_start
+#     print('time costs:{} s'.format(cost_time))
