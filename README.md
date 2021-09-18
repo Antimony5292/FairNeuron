@@ -6,6 +6,12 @@ A model fairness fixing frameworks which avoids training an adversary model and 
 
 ## Repo Structure
 
+1. data: It contains three datasets we used in this paper, and original results we got.
+
+2. FN: It contains the source codes of this work and a demo. The way to run the demo cases has been shown [here](#demo).
+
+4. misc.: The `FairNeuron.ipynb` is the original code of this paper. The `README.md` shows how to use the our demos, the repo structure, the way to reproduce our experiments and our experiment results. And the `requirement.txt` shows all the dependencies of this work.
+
 ```
 - data/
 - FN/
@@ -15,11 +21,12 @@ A model fairness fixing frameworks which avoids training an adversary model and 
     - FairNeuron.py
     - models.py
     - run.py
+- FairNeuron.ipynb
 - README.md
 - requirements.txt
 ```
 
-## Demo
+## <span id="demo">Demo</span>
 
 ```shell
 $ pip install -r requirements.txt
