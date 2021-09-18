@@ -89,7 +89,7 @@ def sample_sort_test(net, train_dataset, THETA=1e-3, GAMMA=0.9):
     print("frac:{}".format(len(adv_data_idx)/len(train_dataset)))
     return adv_data_idx
 
-def get_adv(train_dataset,adv_data_idx):
+def get_adv(train_dataset,adv_data_idx,BATCH_SIZE=128):
     x_t_adv, y_t_adv, l_t_adv, s_t_adv = (None,None,None,None)
     for i in range(len(train_dataset)):
         if i in adv_data_idx:
@@ -114,7 +114,7 @@ def get_adv(train_dataset,adv_data_idx):
     benign_loader = DataLoader(dataset=benign_dataset, batch_size=BATCH_SIZE, shuffle=True)
     return adv_loader,benign_loader
 
-def get_adv_rand(train_dataset,adv_data_idx):
+def get_adv_rand(train_dataset,adv_data_idx,BATCH_SIZE=128):
     adv_data_idx=random.choices(range(0,len(train_dataset)),k=len(adv_data_idx))
     x_t_adv, y_t_adv, l_t_adv, s_t_adv = (None,None,None,None)
     for i in range(len(train_dataset)):
