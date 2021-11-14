@@ -46,3 +46,9 @@ This table shows the average DPR improvement of naive models, which are 198.47%,
 ![Efficiency](./effi1.png)
 
 To evaluate the efficiency of FairNeuron, we measured the time usage of ordinary training, Ethical Adversaries and FairNeuron training on all three datasets. We conducted the experiments 10 times and computed the average overhead. For ordinary training, the runtime overhead all comes from the training procedure, but for FairNeuron, the hyperparameters tuning accounts for a larger ratio of the total time usage, as shown in above figure. FairNeuron takes only less than twice of the time usage of ordinary training on large datasets like Census, but on small datasets like the German Credit dataset, it takes relatively a long time. If FairNeuron tries more times, the average time will be reduced because the hyperparameters tuning is only conducted once. Overall, FairNeuron is more efficient than Ethical Adversaries in fixing models, with an average speedup of 180%.
+
+## Rebuttal
+![Rebuttal](./appendix.png)
+
+We add 2 baselines, reweighing and ROC. For Reweighing, we use the standard implementation in (AIF360)[https://github.com/Trusted-AI/AIF360].
+
