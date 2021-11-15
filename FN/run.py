@@ -12,20 +12,25 @@ from torch.utils.data import TensorDataset, DataLoader
 from torch.utils.data import dataset
 from torch.utils.data.dataset import random_split
 
-from utils.transform_dataset import transform_dataset
+from utils.transform_dataset import transform_dataset,transform_dataset_credit,transform_dataset_census
 from Evaluate import get_metrics, train_and_evaluate
 from FairNeuron import Fixate_with_val
 
 
 class DataClass():
     def __init__(self,df,dataset) -> None:
-        df_binary, Y, S, Y_true = transform_dataset(df)
-        Y = Y.to_numpy()
+
         if dataset=='compas':
+            df_binary, Y, S, Y_true = transform_dataset(df)
+            Y = Y.to_numpy()    
             self.l_tensor = torch.tensor(Y_true.to_numpy().reshape(-1, 1).astype(np.float32))
             self.threshold=4
-
+        elif dataset=='credit':
+            df_binary, Y, S, Y_true = transform_dataset_credit(df)
+            self.l_tensor = torch.tensor(Y.reshape(-1, 1).astype(np.float32))
+            self.threshold=0.5
         else:
+            df_binary, Y, S, Y_true = transform_dataset_census(df)
             self.l_tensor = torch.tensor(Y.reshape(-1, 1).astype(np.float32))
             self.threshold=0.5
         self.x_tensor = torch.tensor(df_binary.to_numpy().astype(np.float32))
@@ -49,7 +54,10 @@ def run(dataset,inputpath,outputpath,epoch,BATCH_SIZE):
     BATCH_SIZE=128
     file_name='{}_epoch{}_{}'.format(dataset,epoch,int(time.time()))
     print(os.path.join(outputpath,file_name))
-    df=pd.read_csv(inputpath)
+    if dataset=='credit':
+        df=pd.read_csv(inputpath,sep=' ')
+    else:
+        df=pd.read_csv(inputpath)
     data_class = DataClass(df,dataset)
 
 
@@ -100,7 +108,7 @@ def run(dataset,inputpath,outputpath,epoch,BATCH_SIZE):
     res.to_csv(os.path.join(outputpath,file_name))
 
 if __name__ == '__main__':
-    torch.cuda.set_device(1)
+    # torch.cuda.set_device(1)
     parser = argparse.ArgumentParser()
     parser.add_argument('--dataset', choices={'compas','census','credit'},default='compas')
     parser.add_argument('--epoch',default=10)

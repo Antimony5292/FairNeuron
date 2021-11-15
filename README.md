@@ -8,7 +8,7 @@ A model fairness fixing frameworks which avoids training an adversary model and 
 
 1. data: It contains three datasets we used in this paper, and original results we got.
 
-2. FN: It contains the source codes of this work and a demo. The way to run the demo cases has been shown [here](#demo).
+2. FN: It contains the source codes of this work and a demo. The way to run the demo cases has been shown [here](#setup).
 
 4. misc.: The `FairNeuron.ipynb` is the original code of this paper. The `README.md` shows how to use the our demos, the repo structure, the way to reproduce our experiments and our experiment results. And the `requirement.txt` shows all the dependencies of this work.
 
@@ -26,13 +26,6 @@ A model fairness fixing frameworks which avoids training an adversary model and 
 - requirements.txt
 ```
 
-## <span id="demo">Demo</span>
-
-```shell
-$ pip install -r requirements.txt
-$ cd ./FN/
-$ python run.py 
-```
 
 ## Results
 ### Effectiveness
@@ -47,8 +40,39 @@ This table shows the average DPR improvement of naive models, which are 198.47%,
 
 To evaluate the efficiency of FairNeuron, we measured the time usage of ordinary training, Ethical Adversaries and FairNeuron training on all three datasets. We conducted the experiments 10 times and computed the average overhead. For ordinary training, the runtime overhead all comes from the training procedure, but for FairNeuron, the hyperparameters tuning accounts for a larger ratio of the total time usage, as shown in above figure. FairNeuron takes only less than twice of the time usage of ordinary training on large datasets like Census, but on small datasets like the German Credit dataset, it takes relatively a long time. If FairNeuron tries more times, the average time will be reduced because the hyperparameters tuning is only conducted once. Overall, FairNeuron is more efficient than Ethical Adversaries in fixing models, with an average speedup of 180%.
 
+## <span id="setup">Setup</span>
+### (Recommended) Create a virtual environment
+FairNeuron requires specific versions of some Python packages which may conflict with other projects on your system. A virtual environment is strongly recommended to ensure the requirements may be installed safely.
+
+### Install with `pip`
+To install the requirements, run:
+
+`pip install -r ./requirements.txt`
+
+Note: The version of Pytorch in this requirements is CPU version. If you need GPU version, please check your CUDA version and [install Pytorch manually](https://pytorch.org/).
+
+### Run demo
+
+```shell
+cd ./FN
+python run.py
+```
+
+The optional Args are:
+
+| Argument     | Help                                                    | Default                                                      |
+| ------------ | ------------------------------------------------------- | ------------------------------------------------------------ |
+| --dataset    | Choose dataset. Include "compas", "census" and "credit" | compas                                                       |
+| --epoch      | Training epoch for network                              | 10                                                           |
+| --batch-size | Batch size of dataloader                                | 128                                                          |
+| --input-path | Path of dataset                                         | ../data/COMPAS/compas_recidive_two_years_sanitize_age_category_jail_time_decile_score.csv |
+| --save-dir   | Path to save results                                    | ./results                                                    |
+| --rand       | Determine whether dropout randomly                      | False                                                        |
+
+
+
 ## Rebuttal
 ![Rebuttal](./appendix.png)
 
-We add 2 baselines, reweighing and ROC. For Reweighing, we use the standard implementation in (AIF360)[https://github.com/Trusted-AI/AIF360].
+We add 2 baselines, reweighing and ROC. For Reweighing, we use the standard implementation in [AIF360](https://github.com/Trusted-AI/AIF360).
 
