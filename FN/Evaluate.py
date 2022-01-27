@@ -10,7 +10,7 @@ from torch.utils.data import DataLoader
 from pycm import ConfusionMatrix
 from tqdm import trange
 
-from FN.models import Net, Net_CENSUS, Net_nodrop
+from models import Net, Net_CENSUS, Net_nodrop
 
 
 
@@ -313,24 +313,25 @@ def train_and_evaluate_drop(adv_loader: DataLoader,
             batch_losses.append(loss.item())
             
         model.eval()
-        for x_batch, y_batch, _, s_batch in benign_loader:
-            x_batch = x_batch.to(device)
-            y_batch = y_batch.to(device)
-            s_batch = s_batch.to(device)
+        if benign_loader is not None:
+            for x_batch, y_batch, _, s_batch in benign_loader:
+                x_batch = x_batch.to(device)
+                y_batch = y_batch.to(device)
+                s_batch = s_batch.to(device)
 
-            # zero the parameter gradients
-            optimizer.zero_grad()
+                # zero the parameter gradients
+                optimizer.zero_grad()
 
-            # forward + backward + optimize
-            if grl_lambda is not None and grl_lambda != 0:
-                outputs, outputs_protected = model(x_batch)
-                loss = criterion(outputs, y_batch) + criterion_bias(outputs_protected, s_batch.argmax(dim=1))
-            else:
-                outputs = model(x_batch)
-                loss = criterion(outputs, y_batch)
-            loss.backward()
-            optimizer.step()
-            batch_losses.append(loss.item())
+                # forward + backward + optimize
+                if grl_lambda is not None and grl_lambda != 0:
+                    outputs, outputs_protected = model(x_batch)
+                    loss = criterion(outputs, y_batch) + criterion_bias(outputs_protected, s_batch.argmax(dim=1))
+                else:
+                    outputs = model(x_batch)
+                    loss = criterion(outputs, y_batch)
+                loss.backward()
+                optimizer.step()
+                batch_losses.append(loss.item())
 
         training_loss = np.mean(batch_losses)
         training_losses.append(training_loss)

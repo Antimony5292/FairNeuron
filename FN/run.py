@@ -1,5 +1,4 @@
 import argparse
-import torch
 import time
 import os
 
@@ -14,7 +13,7 @@ from torch.utils.data.dataset import random_split
 
 from utils.transform_dataset import transform_dataset,transform_dataset_credit,transform_dataset_census
 from Evaluate import get_metrics, train_and_evaluate
-from FairNeuron import Fixate_with_val
+from FairNeuron import Fixate_with_val, Fixate_with_val_rand
 
 
 class DataClass():
@@ -49,7 +48,7 @@ class DataClass():
         
 
 
-def run(dataset,inputpath,outputpath,epoch,BATCH_SIZE):
+def run(dataset,inputpath,outputpath,epoch,BATCH_SIZE,rand):
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     BATCH_SIZE=128
     file_name='{}_epoch{}_{}'.format(dataset,epoch,int(time.time()))
@@ -102,8 +101,10 @@ def run(dataset,inputpath,outputpath,epoch,BATCH_SIZE):
     # EA
     # EA(net,attack_size=10, iter_num=50)
 
-    Fixate_with_val(net,data_class,epoch=epoch,BATCH_SIZE=BATCH_SIZE)
-
+    if rand:
+        Fixate_with_val_rand(net,data_class,epoch=epoch,BATCH_SIZE=BATCH_SIZE)
+    else:
+        Fixate_with_val(net,data_class,epoch=epoch,BATCH_SIZE=BATCH_SIZE)
     res = pd.DataFrame(data_class.global_results)
     res.to_csv(os.path.join(outputpath,file_name))
 
@@ -115,7 +116,7 @@ if __name__ == '__main__':
     parser.add_argument('--batch-size',default=128,dest='batchsize')
     parser.add_argument('--input-path',default='../data/COMPAS/compas_recidive_two_years_sanitize_age_category_jail_time_decile_score.csv',dest='inputpath')
     parser.add_argument('--save-dir',default='./results',dest='outputpath')
-    parser.add_argument('--rand',action='store_true')
+    parser.add_argument('--rand',action='store_true',dest='rand')
     args=parser.parse_args()
 
-    run(dataset=args.dataset,inputpath=args.inputpath,outputpath=args.outputpath,epoch=args.epoch,BATCH_SIZE=args.batchsize)
+    run(dataset=args.dataset,inputpath=args.inputpath,outputpath=args.outputpath,epoch=args.epoch,BATCH_SIZE=args.batchsize,rand=args.rand)
