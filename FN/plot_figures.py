@@ -38,7 +38,7 @@ def Fixate(THETA=1e-3,GAMMA=0.9,epoch=10,dataset='compas'):
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 BATCH_SIZE=128
 
-df=pd.read_csv('data/COMPAS/compas_recidive_two_years_sanitize_age_category_jail_time_decile_score.csv')
+df=pd.read_csv('../data/COMPAS/compas_recidive_two_years_sanitize_age_category_jail_time_decile_score.csv')
 df_binary, Y, S, Y_true = transform_dataset(df)
 Y = Y.to_numpy()
 print(np.mean(Y))
@@ -84,6 +84,8 @@ for THETA in list(np.logspace(-0.01,-5,50)):
     Fixate(THETA=THETA,GAMMA=0.95,epoch=3)
 for GAMMA in list(np.linspace(1,0.5,50)):
     Fixate(THETA=0.01,GAMMA=GAMMA,epoch=3)
+
+df = pd.DataFrame(global_results)
 
 EA_ablation={'acc':0.759,
             'DP':0.095,
@@ -136,7 +138,7 @@ for THETA in list(np.logspace(-0.01,-5,50)):
          'DP ratio':(df['DP ratio'].iloc[start:end]).mean()+0.5}
     ablation_df=ablation_df.append(dic, ignore_index=True)
     i+=1
-ablation_df.to_csv('data/results/ablation_df_theta')
+ablation_df.to_csv(os.path.join(save_dir,'ablation_df_theta'))
 for metric in metric_list:
     plt.figure(figsize=(7, 5))
     plt.tick_params(labelsize=14)
@@ -154,24 +156,24 @@ for metric in metric_list:
 
 
 
-v_list=[]
-sample_sort_test(net,train_dataset,0.01,0.6)
-path_stat=np.array(v_list[0].counts)
-total=path_stat.sum()
-cum=[]
-s=0
-for i in range(1,path_stat[0]+1):
-    s=s+i*(path_stat==i).sum()
-    cum.append(s.copy())
-cum=np.array(cum)/s
-plt.figure(figsize=(7, 5))
-plt.tick_params(labelsize=14)
-plt.hist(path_stat,bins=40,density=1, histtype='step',label='Path activation statistics PDF')
-plt.plot(range(0,len(cum)),cum,'ro-',label='Sample cumulative ratio')
-plt.vlines(47*0.03, 0, 2, colors='g', linestyles='dashed')
-plt.xlabel('path activation statistics',myfont)
-plt.ylabel('ratio',myfont)
-plt.ylim((0,1.01))
-plt.legend(loc='lower right')
-plt.grid(linestyle='-.')
-plt.savefig(os.path.join(save_dir,'detection.pdf'))
+# v_list=[]
+# sample_sort_test(net,train_dataset,0.01,0.6)
+# path_stat=np.array(v_list[0].counts)
+# total=path_stat.sum()
+# cum=[]
+# s=0
+# for i in range(1,path_stat[0]+1):
+#     s=s+i*(path_stat==i).sum()
+#     cum.append(s.copy())
+# cum=np.array(cum)/s
+# plt.figure(figsize=(7, 5))
+# plt.tick_params(labelsize=14)
+# plt.hist(path_stat,bins=40,density=1, histtype='step',label='Path activation statistics PDF')
+# plt.plot(range(0,len(cum)),cum,'ro-',label='Sample cumulative ratio')
+# plt.vlines(47*0.03, 0, 2, colors='g', linestyles='dashed')
+# plt.xlabel('path activation statistics',myfont)
+# plt.ylabel('ratio',myfont)
+# plt.ylim((0,1.01))
+# plt.legend(loc='lower right')
+# plt.grid(linestyle='-.')
+# plt.savefig(os.path.join(save_dir,'detection.pdf'))
