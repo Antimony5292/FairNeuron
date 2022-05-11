@@ -1,8 +1,10 @@
 # FairNeuron
 
+### [Paper](https://arxiv.org/abs/2204.02567) | [Video](https://youtu.be/pAe4os3JjA0) | Tutorial . 
+
 ## TL;DR
 
-A model fairness fixing frameworks which avoids training an adversary model and does not require modifying model training protocol or architecture.
+FairNeuron is a deep neural network (DNN) model automatic repairing tool, which avoids training an adversary model and does not require modifying model training protocol or architecture.
 
 ## Repo Structure
 
@@ -29,9 +31,9 @@ A model fairness fixing frameworks which avoids training an adversary model and 
 
 ## Results
 ### Effectiveness
-![Effectiveness](./effect1.png)
+![Rebuttal](E:\github\FairNeuron\README.assets\appendix.png)
 
-To evaluate the effectiveness of FairNeuron, we test the following models: the naive baseline model, models fixed by FAD, by Ethical Adversaries, and by FairNeuron. Due to the randomness in these experiments, we ran the training 10 times to ensure the reliability of results and enforced these fixing algorithms to share the same original training dataset. To measure the effectiveness of FairNeuron, we compare the performance between FairNeuron and the other algorithms in terms of both utility and fairness. To demonstrate the effectiveness of the three components of FairNeuron (i.e. neural network slicing, sample clustering and selective training), we conducted a detailed comparison between our algorithm and other popular works.
+To evaluate the effectiveness of FairNeuron, we test the following models: the naive baseline model, models fixed by FAD, by Ethical Adversaries, and by FairNeuron. We also compared FairNeuron with two popular pre-/post-processing method, reweighing and reject option classification (ROC). Due to the randomness in these experiments, we ran the training 10 times to ensure the reliability of results and enforced these fixing algorithms to share the same original training dataset. To measure the effectiveness of FairNeuron, we compare the performance between FairNeuron and the other algorithms in terms of both utility and fairness. 
 
 This table shows the average DPR improvement of naive models, which are 198.47%, 257.23%, and 3995.23% of Census, Credit and COMPAS, respectively. FairNeuron mitigates the naive model by 69.69%, 21.12% and 38.95% in terms of EO, and 74.68%, 2.08%, 96.19% in terms of DP. Compared with the other algorithms, FairNeuron achieves the best fairness performance on Census and COMPAS. 
 
@@ -71,8 +73,15 @@ The optional Args are:
 
 
 
-## Rebuttal
-![Rebuttal](./appendix.png)
+# Citation
 
-We add 2 baselines, reweighing and ROC. For Reweighing, we use the standard implementation in [AIF360](https://github.com/Trusted-AI/AIF360).
+If you find our work useful in your research, please consider citing:
+
+
+
+
+
+# Misc
+
+Please open an issue if there is any question.
 
