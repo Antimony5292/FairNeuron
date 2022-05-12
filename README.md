@@ -31,7 +31,7 @@ FairNeuron is a deep neural network (DNN) model automatic repairing tool, which 
 
 ## Results
 ### Effectiveness
-![Rebuttal](E:\github\FairNeuron\README.assets\appendix.png)
+![Rebuttal](E:\github\FairNeuron\appendix.png)
 
 To evaluate the effectiveness of FairNeuron, we test the following models: the naive baseline model, models fixed by FAD, by Ethical Adversaries, and by FairNeuron. We also compared FairNeuron with two popular pre-/post-processing method, reweighing and reject option classification (ROC). Due to the randomness in these experiments, we ran the training 10 times to ensure the reliability of results and enforced these fixing algorithms to share the same original training dataset. To measure the effectiveness of FairNeuron, we compare the performance between FairNeuron and the other algorithms in terms of both utility and fairness. 
 
