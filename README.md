@@ -77,7 +77,15 @@ The optional Args are:
 
 If you find our work useful in your research, please consider citing:
 
-
+```
+@INPROCEEDINGS{9793993,
+  author={Gao, Xuanqi and Zhai, Juan and Ma, Shiqing and Shen, Chao and Chen, Yufei and Wang, Qian},
+  booktitle={2022 IEEE/ACM 44th International Conference on Software Engineering (ICSE)}, 
+  title={Fairneuron: Improving Deep Neural Network Fairness with Adversary Games on Selective Neurons}, 
+  year={2022},
+  pages={921-933},
+  doi={10.1145/3510003.3510087}}
+```
 
 
 
