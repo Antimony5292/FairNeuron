@@ -106,6 +106,8 @@ def run(dataset,inputpath,outputpath,epoch,BATCH_SIZE,rand):
     else:
         Fixate_with_val(net,data_class,epoch=epoch,BATCH_SIZE=BATCH_SIZE)
     res = pd.DataFrame(data_class.global_results)
+    if not os.path.isdir(outputpath):
+        os.mkdir(outputpath)
     res.to_csv(os.path.join(outputpath,file_name))
 
 if __name__ == '__main__':
