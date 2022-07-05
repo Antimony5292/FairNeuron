@@ -12,7 +12,7 @@ def get_paras(net):
 def get_active_neurons4(net,sample):
     neurons=[]
     def hook(module,input,output):
-        neurons.append(output.data)
+        neurons.append(output.data.detach().clone())
     handle1=net.fc1.register_forward_hook(hook)
     handle2=net.fc2.register_forward_hook(hook)
     handle3=net.fc3.register_forward_hook(hook)
@@ -29,7 +29,7 @@ def get_contrib4(paras,neurons):
     for i in range(3):
         i=i
         contrib=neurons[i]*paras[2*i+2]
-        contrib_list.append(contrib)
+        contrib_list.append(contrib.detach().clone())
     return contrib_list
 
 def get_path_set4(net,sample,GAMMA=0.9):
