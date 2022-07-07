@@ -78,7 +78,7 @@ def training_function_ROC(config):
 
 
     net_drop, results = train_and_evaluate(train_loader_s, val_loader_s, test_loader_s, device, input_shape=x_train_tensor_s.shape[1],
-                                            grl_lambda=0,dataset=config['dataset'])
+                                            grl_lambda=50,dataset=config['dataset'])
     result = get_metrics_ROC(results, threshold, margin,dataset=config['dataset'])
     print(result)
     complex_score = result['DP']+result['EO']+(1-result['DP ratio'])-0.01*result['acc']
@@ -156,7 +156,7 @@ def ROC_evaluate(dataset='compas'):
         margin = best_config['margin']
 
         net, results = train_and_evaluate(train_loader, val_loader, test_loader, device, input_shape=x_tensor.shape[1],
-                                            grl_lambda=0)
+                                            grl_lambda=50)
         result = get_metrics_ROC(results, threshold, margin,dataset='compas')
     elif dataset=='census':
         df=pd.read_csv('data/Census/adult')
@@ -225,7 +225,7 @@ def ROC_evaluate(dataset='compas'):
         margin = best_config['margin']
 
         net, results = train_and_evaluate(train_loader, val_loader, test_loader, device, input_shape=x_tensor.shape[1],
-                                            grl_lambda=0,dataset='census')
+                                            grl_lambda=50,dataset='census')
 
 
 
@@ -297,7 +297,7 @@ def ROC_evaluate(dataset='compas'):
         margin = best_config['margin']
 
         net, results = train_and_evaluate(train_loader, val_loader, test_loader, device, input_shape=x_tensor.shape[1],
-                                            grl_lambda=0,dataset='credit')
+                                            grl_lambda=50,dataset='credit')
 
 
 

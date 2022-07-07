@@ -84,7 +84,7 @@ def run(dataset,inputpath,outputpath,epoch,BATCH_SIZE,rand):
     threshold = 4
 
     net, results = train_and_evaluate(train_loader, val_loader, test_loader, device, input_shape=data_class.x_tensor.shape[1],
-                                        grl_lambda=0)
+                                        grl_lambda=50)
 
 
     ori_end=time.time()

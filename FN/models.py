@@ -45,7 +45,7 @@ class Net(nn.Module):
     def forward(self, x):
         hidden = self.fc1(x)
         hidden = F.relu(hidden)
-        hidden = F.dropout(hidden, 0.1)
+        hidden = F.dropout(hidden, 0.1, training=self.training)
         hidden = self.fc2(hidden)
         hidden = F.relu(hidden)
         hidden = self.fc3(hidden)
@@ -119,7 +119,7 @@ class Net_CENSUS(nn.Module):
     def forward(self, x):
         hidden = self.fc1(x)
         hidden = F.relu(hidden)
-        hidden = F.dropout(hidden, 0.1)
+        hidden = F.dropout(hidden, 0.1, training=self.training)
         hidden = self.fc2(hidden)
         hidden = F.relu(hidden)
         hidden = self.fc3(hidden)

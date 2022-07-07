@@ -325,7 +325,7 @@ def reweighing_evaluate(dataset='compas'):
             threshold = 4
 
             net, results = train_and_evaluate(train_loader, val_loader, test_loader, device, input_shape=x_tensor.shape[1],
-                                                grl_lambda=0)
+                                                grl_lambda=50)
             ori_end=time.time()
             ori_cost_time=ori_end-ori_start
             print('time costs:{} s'.format(ori_cost_time))
@@ -376,7 +376,7 @@ def reweighing_evaluate(dataset='compas'):
             threshold = 0.5
 
             net, results = train_and_evaluate(train_loader, val_loader, test_loader, device, input_shape=x_tensor.shape[1],
-                                                grl_lambda=0,dataset='census')
+                                                grl_lambda=50,dataset='census')
             ori_end=time.time()
             ori_cost_time=ori_end-ori_start
             print('time costs:{} s'.format(ori_cost_time))
@@ -435,7 +435,7 @@ def reweighing_evaluate(dataset='compas'):
             threshold = 0.5
 
             net, results = train_and_evaluate(train_loader, val_loader, test_loader, device, input_shape=x_tensor.shape[1],
-                                                grl_lambda=0,dataset='credit')
+                                                grl_lambda=50,dataset='credit')
             ori_end=time.time()
             ori_cost_time=ori_end-ori_start
             print('time costs:{} s'.format(ori_cost_time))

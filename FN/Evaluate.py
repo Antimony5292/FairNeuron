@@ -123,7 +123,7 @@ def train_and_evaluate(train_loader: DataLoader,
 
     torch.manual_seed(0)
 
-    grl_lambda = 50
+    # grl_lambda = 50
     epochs = 50
 
     if model is None:
