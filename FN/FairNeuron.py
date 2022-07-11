@@ -40,6 +40,7 @@ def Fixate_with_val(net,data_class,epoch=10,dataset='compas',BATCH_SIZE=128):
 
         adv_data_idx = sample_sort(net,train_dataset_s,THETA,GAMMA)
         if len(adv_data_idx) == len(train_dataset_s):
+            adv_loader = DataLoader(dataset=train_dataset_s, batch_size=BATCH_SIZE, shuffle=True)
             benign_loader = None
         else:
             adv_loader, benign_loader = get_adv(train_dataset_s,adv_data_idx,BATCH_SIZE=BATCH_SIZE)
