@@ -1,6 +1,6 @@
 import time
 import random
-
+import math
 from ray import tune
 
 from torch.utils.data import DataLoader
@@ -48,6 +48,8 @@ def Fixate_with_val(net,data_class,epoch=10,dataset='compas',BATCH_SIZE=128):
                                                 grl_lambda=0,dataset=config['dataset'])
         result = get_metrics(results, data_class.threshold, 0,dataset=config['dataset'])
         complex_score = result['DP']+result['EO']+(1-result['DP ratio'])-0.01*result['acc']
+        if math.isnan(complex_score):
+            complex_score = result['DP']+result['EO']-0.01*result['acc']
         tune.report(mean_loss=complex_score)
 
     our_start=time.time()
