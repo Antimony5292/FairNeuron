@@ -1,6 +1,6 @@
 # FairNeuron
 
-### [Paper](https://arxiv.org/abs/2204.02567) | [Video](https://youtu.be/pAe4os3JjA0) | Tutorial . 
+### [Pre-print](https://arxiv.org/abs/2204.02567) | [Proceeding](https://ieeexplore.ieee.org/document/9793993) | [Video](https://youtu.be/pAe4os3JjA0) | Tutorial . 
 
 ## TL;DR
 
