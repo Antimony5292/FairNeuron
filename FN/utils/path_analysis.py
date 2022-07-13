@@ -108,10 +108,12 @@ def get_adv(train_dataset,adv_data_idx,BATCH_SIZE=128):
             s_t_benign = d.unsqueeze(0) if s_t_benign is None else torch.cat((s_t_benign,d.unsqueeze(0)),0)
 
     adv_dataset = TensorDataset(x_t_adv, y_t_adv, l_t_adv, s_t_adv)
-    benign_dataset = TensorDataset(x_t_benign, y_t_benign, l_t_benign, s_t_benign)
-
     adv_loader = DataLoader(dataset=adv_dataset, batch_size=BATCH_SIZE, shuffle=True)
+
+
+    benign_dataset = TensorDataset(x_t_benign, y_t_benign, l_t_benign, s_t_benign)
     benign_loader = DataLoader(dataset=benign_dataset, batch_size=BATCH_SIZE, shuffle=True)
+    
     return adv_loader,benign_loader
 
 def get_adv_rand(train_dataset,adv_data_idx,BATCH_SIZE=128):

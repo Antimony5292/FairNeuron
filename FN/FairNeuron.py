@@ -42,6 +42,9 @@ def Fixate_with_val(net,data_class,epoch=10,dataset='compas',BATCH_SIZE=128):
         if len(adv_data_idx) == len(train_dataset_s):
             adv_loader = DataLoader(dataset=train_dataset_s, batch_size=BATCH_SIZE, shuffle=True)
             benign_loader = None
+        elif len(adv_data_idx) == 0:
+            adv_loader = None
+            benign_loader = DataLoader(dataset=train_dataset_s, batch_size=BATCH_SIZE, shuffle=True)
         else:
             adv_loader, benign_loader = get_adv(train_dataset_s,adv_data_idx,BATCH_SIZE=BATCH_SIZE)
         net_drop, results = train_and_evaluate_drop(adv_loader, benign_loader, val_loader_s, test_loader_s, device='cuda', input_shape=x_train_tensor_s.shape[1],
